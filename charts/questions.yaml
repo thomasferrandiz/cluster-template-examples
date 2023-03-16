@@ -19,6 +19,7 @@ questions:
   type: enum
   required: true
   options:
+  - openstack
   - amazonec2
   - digitalocean
   - azure
@@ -27,7 +28,7 @@ questions:
   - custom
   group: "General"
 - variable: kubernetesVersion
-  default: v1.22.6+rke2r1
+  default: v1.24.10+rke2r1
   description: "Specify Kubernetes version"
   label: "Kubernetes Version"
   type: enum
