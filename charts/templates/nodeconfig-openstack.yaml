@@ -1,0 +1,136 @@
+{{- range $index, $nodepool := .Values.nodepools }}
+apiVersion: rke-machine-config.cattle.io/v1
+kind: OpenstackConfig
+metadata:
+  name: {{ $nodepool.name }}
+  namespace: {{ $.Release.Namespace }}
+{{- if $.Values.cloudinit.enable }}
+userDataFile: |
+  #cloud-config
+  {{- if $.Values.cloudinit.sshPubKeys }}
+  ssh_authorized_keys:
+    {{- range $value := $.Values.cloudinit.sshPubKeys }}
+    - {{ $value }}
+    {{- end }}
+  {{- end }}
+  package_update: true
+  package_upgrade: true
+  cloud_config_modules:
+    - runcmd
+  cloud_final_modules:
+    - scripts-user
+  runcmd:
+    {{ if $.Values.cluster.cni.cniCilium.enabled }}
+    - sed -i -e '/net.ipv4.conf.*.rp_filter/d' $(grep -ril '\.rp_filter' /etc/sysctl.d/ /usr/lib/sysctl.d/)
+    - sysctl -a | grep '\.rp_filter' | awk '{print $1" = 0"}' > /etc/sysctl.d/1000-cilium.conf
+    {{ end }}
+    {{- range $value := $.Values.cloudinit.runcmd }}
+    - {{ $value }}
+    {{- end }}
+    - cat /var/log/cloud-init.log
+    - sysctl -p
+  output: {all: '| tee -a /var/log/cloud-init-output.log'}
+{{- end }}
+authUrl: {{ $.Values.openstack.authUrl }}
+region: {{ $.Values.openstack.region | default "RegionOne" }}
+{{- if $.Values.openstack.applicationCredentialId }}
+applicationCredentialId: {{ $.Values.openstack.applicationCredentialId }}
+{{- end }}
+{{- if $.Values.openstack.applicationCredentialSecret }}
+applicationCredentialSecret: {{ $.Values.openstack.applicationCredentialSecret }}
+{{- end }}
+availabilityZone: {{ $nodepool.availabilityZone }}
+{{- if $nodepool.cacert }}
+cacert: {{ $nodepool.cacert }}
+{{- end }}
+{{- if $nodepool.configDrive }}
+configDrive: {{ $nodepool.configDrive }}
+{{- end }}
+{{- if $nodepool.common }}
+common:
+{{- if $nodepool.labels }}
+  labels:
+{{ toYaml $nodepool.labels | indent 4 }}
+{{- end }}
+{{- if $nodepool.taints }}
+  taints:
+{{ toYaml $nodepool.taints | indent 4 }}
+{{- end }}
+{{- end }}
+{{- if  $nodepool.netId }}
+netId: {{ $nodepool.netId }}
+{{- end }}
+{{- if  $nodepool.netName }}
+netName: {{ $nodepool.netName }}
+{{- end }}
+{{- if  $nodepool.floatingipPool }}
+floatingipPool: {{ $nodepool.floatingipPool }}
+{{- end }}
+{{- if $.Values.openstack.username }}
+username: {{ $.Values.openstack.username }}
+{{- end }}
+{{- if $.Values.openstack.userId }}
+userId: {{ $nodepool.userId }}
+{{- end }}
+novaNetwork: false
+sshUser: {{ $nodepool.sshUser | default "ubuntu" }}
+sshPort: "{{ $nodepool.sshPort | default "22" }}"
+activeTimeout: "{{ $nodepool.activeTimeout | default "200" }}"
+{{- if $nodepool.flavorName }}
+flavorName: {{ $nodepool.flavorName }}
+{{- end }}
+{{- if $nodepool.flavorId }}
+flavorId: {{ $nodepool.flavorId }}
+{{- end }}
+{{- if $nodepool.imageId }}
+imageId: {{ $nodepool.imageId }}
+{{- end }}
+{{- if $nodepool.imageName }}
+imageName: {{ $nodepool.imageName }}
+{{- end }}
+{{- if $nodepool.insecure }}
+insecure: {{ $nodepool.insecure }}
+{{- end }}
+{{- if $.Values.privateKeyFile }}
+privateKeyFile: {{ toYaml $.Values.privateKeyFile | indent 2 }}
+{{- end }}
+ipVersion: "4"
+{{- if $nodepool.keypairName }}
+keypairName: {{ $nodepool.keypairName }}
+{{- end }}
+secGroups: {{ $nodepool.secGroups | default "default" }}
+{{- if $.Values.openstack.domainId }}
+domainId: {{ $.Values.openstack.domainId }}
+{{- end }}
+{{- if $.Values.openstack.domainName }}
+domainName: {{ $.Values.openstack.domainName | default "default" }}
+{{- end }}
+{{- if $.Values.openstack.tenantDomainId }}
+tenantDomainId: {{ $.Values.openstack.tenantDomainId  }}
+{{- end }}
+{{- if $.Values.openstack.tenantDomainName }}
+tenantDomainName: {{ $.Values.openstack.tenantDomainName | default "Default" }}
+{{- end }}
+{{- if $.Values.openstack.tenantId }}
+tenantId: {{ $.Values.openstack.tenantId }}
+{{- end }}
+{{- if $.Values.openstack.tenantName }}
+tenantName: {{ $.Values.openstack.tenantName }}
+{{- end }}
+{{- if $.Values.openstack.userDomainId }}
+userDomainId: {{ $.Values.openstack.userDomainId }}
+{{- end }}
+{{- if $.Values.openstack.userDomainName }}
+userDomainName: {{ $.Values.openstack.userDomainName }}
+{{- end }}
+bootFromVolume: {{ $nodepool.bootFromVolume }}
+volumeDevicePath: {{ $nodepool.volumedevicepath }}
+volumeName: {{ $nodepool.volumeName }}
+{{- if $nodepool.volumeSize }}
+volumeSize: "{{ $nodepool.volumeSize }}"
+{{- end }}
+{{- if $nodepool.volumeType }}
+volumeType: {{ $nodepool.volumeType }}
+{{- end }}
+---
+{{- end }}
