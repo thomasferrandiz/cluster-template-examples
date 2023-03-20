@@ -40,9 +40,10 @@ applicationCredentialId: {{ $.Values.openstack.applicationCredentialId }}
 applicationCredentialSecret: {{ $.Values.openstack.applicationCredentialSecret }}
 {{- end }}
 availabilityZone: {{ $nodepool.availabilityZone }}
-{{- if $nodepool.cacert }}
-cacert: {{ $nodepool.cacert }}
-{{- end }}
+{{- if $nodepool.cacert_name}}
+cacert: |
+{{ $.Files.Get $nodepool.cacert_name | indent 2 }}
+{{- end}}
 {{- if $nodepool.configDrive }}
 configDrive: {{ $nodepool.configDrive }}
 {{- end }}

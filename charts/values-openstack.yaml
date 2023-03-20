@@ -76,9 +76,9 @@ nodepools:
 
   # specify nodepool name
   name: os-nodepool-1
-  insecure: true
   flavorName: m2.medium
   floatingipPool: floating
   imageName: ubuntu-20.04-focal-server-cloudimg
   netId: 8f6b659b-14b4-48b3-9c61-9c7bafabc04c
+  cacert_name: Suse_Root.crt
 
