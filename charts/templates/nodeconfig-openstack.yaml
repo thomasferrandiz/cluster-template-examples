@@ -20,10 +20,6 @@ userDataFile: |
   cloud_final_modules:
     - scripts-user
   runcmd:
-    {{ if $.Values.cluster.cni.cniCilium.enabled }}
-    - sed -i -e '/net.ipv4.conf.*.rp_filter/d' $(grep -ril '\.rp_filter' /etc/sysctl.d/ /usr/lib/sysctl.d/)
-    - sysctl -a | grep '\.rp_filter' | awk '{print $1" = 0"}' > /etc/sysctl.d/1000-cilium.conf
-    {{ end }}
     {{- range $value := $.Values.cloudinit.runcmd }}
     - {{ $value }}
     {{- end }}
