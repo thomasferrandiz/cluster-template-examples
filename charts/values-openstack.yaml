@@ -5,6 +5,9 @@ cloudCredentialSecretName: engcloud
 
 cloudinit:
   enable: false
+  runcmd:
+  - curl -sfL -o /tmp/k9s_Linux_amd64.tar.gz  https://github.com/derailed/k9s/releases/download/v0.27.3/k9s_Linux_amd64.tar.gz 
+  - tar xfz /tmp/k9s_Linux_amd64.tar.gz -C /usr/local/bin
 
 kubernetesVersion: "v1.24.10+rke2r1"
 
