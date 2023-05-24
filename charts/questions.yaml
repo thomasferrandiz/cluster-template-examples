@@ -19,11 +19,7 @@ questions:
   type: enum
   required: true
   options:
-  - amazonec2
-  - digitalocean
-  - azure
-  - vsphere
-  - harvester
+  - openstack
   - custom
   group: "General"
 - variable: kubernetesVersion
@@ -33,12 +29,7 @@ questions:
   type: enum
   required: true
   options:
-  - v1.21.6+rke2r1
-  - v1.21.7+rke2r1
-  - v1.21.8+rke2r1
-  - v1.21.9+rke2r1
-  - v1.22.5+rke2r1
-  - v1.21.6+rke2r1
+  - v1.24.10+rke2r1
   group: "General"
 - variable: rke.localClusterAuthEndpoint.enabled
   default: false
@@ -86,33 +77,33 @@ questions:
   type: string
   label: "Nodepool name"
   required: true
-  show_if: cloudprovider=amazonec2 || cloudprovider=vsphere || cloudprovider=azure || cloudprovider=digitalocean || cloudprovider=harvester
+  show_if: cloudprovider=openstack
   group: "Nodepools"
 - variable: nodepools.0.quantity
   default: 1
   description: "Specify node count"
   type: int
   required: true
-  show_if: cloudprovider=amazonec2 || cloudprovider=vsphere || cloudprovider=azure || cloudprovider=digitalocean || cloudprovider=harvester
+  show_if: cloudprovider=openstack
   label: "Node count"
   group: "Nodepools"
 - variable: nodepools.0.etcd
   default: true
   label: etcd
   type: boolean
-  show_if: cloudprovider=amazonec2 || cloudprovider=vsphere || cloudprovider=azure || cloudprovider=digitalocean || cloudprovider=harvester
+  show_if: cloudprovider=openstack
   group: "Nodepools"
 - variable: nodepools.0.worker
   default: true
   label: worker
   type: boolean
-  show_if: cloudprovider=amazonec2 || cloudprovider=vsphere || cloudprovider=azure || cloudprovider=digitalocean || cloudprovider=harvester
+  show_if: cloudprovider=openstack
   group: "Nodepools"
 - variable: nodepools.0.controlplane
   label: controlplane
   default: true
   type: boolean
-  show_if: cloudprovider=amazonec2 || cloudprovider=vsphere || cloudprovider=azure || cloudprovider=digitalocean || cloudprovider=harvester
+  show_if: cloudprovider=openstack
   group: "Nodepools"
 # EC2
 - variable: nodepools.0.region
