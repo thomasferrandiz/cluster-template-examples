@@ -15,7 +15,7 @@ cloudprovider: openstack
 cloudCredentialSecretName: engcloud
 
 cloudinit:
-  enable: true
+  enable: false
   runcmd:
   - mkdir -p /etc/rancher/rke2
   - | 
