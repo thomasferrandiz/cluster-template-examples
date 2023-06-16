@@ -32,17 +32,7 @@ spec:
       quantity: {{ $nodepool.quantity }}
       name: {{ $nodepool.name }}
       machineConfigRef:
-        {{- if eq $.Values.cloudprovider "amazonec2" }}
-        kind: Amazonec2Config
-        {{- else if eq $.Values.cloudprovider "vsphere" }}
-        kind: VmwarevsphereConfig
-        {{- else if eq $.Values.cloudprovider "harvester" }}
-        kind: HarvesterConfig
-        {{- else if eq $.Values.cloudprovider "digitalocean" }}
-        kind: DigitaloceanConfig
-        {{- else if eq $.Values.cloudprovider "azure" }}
-        kind: AzureConfig
-        {{- else if eq $.Values.cloudprovider "openstack" }}
+        {{- if eq $.Values.cloudprovider "openstack" }}
         kind: OpenstackConfig
         {{- end}}
         name: {{ $nodepool.name }}
@@ -71,17 +61,7 @@ spec:
       quantity: {{ $nodepool.quantity }}
       name: {{ $nodepool.name }}
       machineConfigRef:
-        {{- if eq $.Values.cloudprovider "amazonec2" }}
-        kind: Amazonec2Config
-        {{- else if eq $.Values.cloudprovider "vsphere" }}
-        kind: VmwarevsphereConfig
-        {{- else if eq $.Values.cloudprovider "harvester" }}
-        kind: HarvesterConfig
-        {{- else if eq $.Values.cloudprovider "digitalocean" }}
-        kind: DigitaloceanConfig
-        {{- else if eq $.Values.cloudprovider "azure" }}
-        kind: AzureConfig
-        {{- else if eq $.Values.cloudprovider "openstack" }}
+        {{- if eq $.Values.cloudprovider "openstack" }}
         kind: OpenstackConfig
         {{- end}}
         name: {{ $nodepool.name }}
@@ -143,6 +123,10 @@ spec:
       # service-node-port-range: "30000-32767"
       # Add additional hostnames or IPv4/IPv6 addresses as Subject Alternative Names on the server TLS cert
       # tls-san: []
+      # Cloud provider name
+      cloud-provider-name: "openstack"
+      # Cloud provider configuration file path
+      cloud-provider-config: "/etc/rancher/rke2/cloud.conf"
 
     # machineSelectorConfig:
     # - config:
@@ -164,10 +148,6 @@ spec:
         # protect-kernel-defaults: false
         # Enable SELinux in containerd (default: false)
         # selinux: true
-        # Cloud provider name
-        # cloud-provider-name: ""
-        # Cloud provider configuration file path
-        # cloud-provider-config: ""
     {{- if .Values.rke.localClusterAuthEndpoint.enabled }}
     localClusterAuthEndpoint:
       enabled: {{ .Values.rke.localClusterAuthEndpoint.enabled }}
