@@ -17,7 +17,22 @@ cloudCredentialSecretName: engcloud
 cloudinit:
   enable: true
   runcmd:
-  - touch /etc/rancher/rke2/cloud.conf
+  - mkdir -p /etc/rancher/rke2
+  - | 
+    cat > /etc/rancher/rke2/cloud.conf <<EOF
+    [Global]
+    auth-url={{ $.Values.openstack.authUrl }}
+    username={{ $.Values.openstack.username }}
+    # user-id=
+    password=passw0rd
+    region={{ $.Values.openstack.region }}
+    tenant-id={{ $.Values.openstack.tenantId }}
+    domain-name={{ $.Values.openstack.domainName }}
+
+    # [LoadBalancer]
+    # subnet-id=9c018814-f2a8-45dd-9679-5400d49b333a
+    # floating-network-id=80c9fc78-a2be-45d5-a85b-f17a6c98df92
+    EOF
 
 kubernetesVersion: "v1.25.10+rke2r1"
 

@@ -21,7 +21,10 @@ spec:
   # enable network policy
   enableNetworkPolicy: true
   # specify rancher helm chart values deployed into downstream cluster
-  # rancherValues: {}
+  chartValues: 
+    rke2-coredns:
+      image: coredns/coredns
+      imageTag: v1.7.1
   rkeConfig:
     {{- if ne .Values.cloudprovider "custom" }}
     machinePools:
