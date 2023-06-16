@@ -124,9 +124,9 @@ spec:
       # Add additional hostnames or IPv4/IPv6 addresses as Subject Alternative Names on the server TLS cert
       # tls-san: []
       # Cloud provider name
-      cloud-provider-name: "openstack"
+      # cloud-provider-name: "openstack"
       # Cloud provider configuration file path
-      cloud-provider-config: "/etc/rancher/rke2/cloud.conf"
+      # cloud-provider-config: "/etc/rancher/rke2/cloud.conf"
 
     # machineSelectorConfig:
     # - config:

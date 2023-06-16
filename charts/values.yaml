@@ -19,7 +19,7 @@ cloudinit:
   runcmd:
   - touch /etc/rancher/rke2/cloud.conf
 
-kubernetesVersion: "v1.25.11+rke2r1"
+kubernetesVersion: "v1.25.10+rke2r1"
 
 openstack:
   authUrl: https://engcloud.prv.suse.net:5000/v3

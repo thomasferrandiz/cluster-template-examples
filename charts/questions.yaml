@@ -23,13 +23,13 @@ questions:
   - custom
   group: "General"
 - variable: kubernetesVersion
-  default: v1.25.11+rke2r1
+  default: v1.25.10+rke2r1
   description: "Specify Kubernetes version"
   label: "Kubernetes Version"
   type: enum
   required: true
   options:
-  - v1.25.11+rke2r1
+  - v1.25.10+rke2r1
   group: "General"
 - variable: rke.localClusterAuthEndpoint.enabled
   default: false
