@@ -1,0 +1,30 @@
+kind: Bundle
+apiVersion: fleet.cattle.io/v1alpha1
+metadata:
+  # Any name can be used here
+  name: cloud-config
+  # For single cluster use fleet-local, otherwise use the namespace of
+  # your choosing
+  namespace: fleet-default
+spec:
+  resources:
+  # List of all resources that will be deployed
+  - content: |
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: cloud-config
+        namespace: fleet-default
+      stringData:
+        values.yaml: |-
+          cloudConfig:
+              global:
+                  auth-url: https://engcloud.prv.suse.net:5000/v3
+                  username: tferrandiz
+                  domain-name: ldap_users
+        
+    name: cloud-config.yaml
+  targets:
+  - clusterSelector:
+      matchLabels:
+        type: openstack
