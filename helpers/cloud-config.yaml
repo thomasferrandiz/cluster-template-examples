@@ -1,3 +1,6 @@
+# Manifest to apply on the Rancher cluster
+# It will then create the secret below on all the downstream clusters labeled 'type: openstack'
+# This is based on https://fleet.rancher.io/bundle-add
 kind: Bundle
 apiVersion: fleet.cattle.io/v1alpha1
 metadata:
