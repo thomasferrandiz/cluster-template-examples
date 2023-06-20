@@ -1,8 +1,21 @@
 apiVersion: provisioning.cattle.io/v1
 kind: Cluster
 metadata:
-  {{- if .Values.cluster.labels }}
   labels:
+    - type: openstack
+  {{- if .Values.ccm.enabled }}
+    - ccm-enabled: true
+  {{- end }}
+  {{- if .Values.csi.enabled }}
+    - csi-enabled: true
+    {{- if eq $.Values.csi.name "cinder" }}
+    - csi-name: "cinder"
+    {{- end }}  
+    {{- if eq $.Values.csi.name "manila" }}
+    - csi-name: "manila"
+    {{- end }} 
+  {{- end }}
+  {{- if .Values.cluster.labels }}
 {{ toYaml .Values.cluster.labels | indent 4 }}
   {{- end }}
   {{- if .Values.cluster.annotations }}
@@ -131,6 +144,9 @@ spec:
       # cloud-provider-name: "openstack"
       # Cloud provider configuration file path
       # cloud-provider-config: "/etc/rancher/rke2/cloud.conf"
+      {{- if .Values.ccm.enabled }}
+      disable-cloud-controller: true
+      {{- end }}
 
     # machineSelectorConfig:
     # - config:
