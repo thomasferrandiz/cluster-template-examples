@@ -2,17 +2,17 @@ apiVersion: provisioning.cattle.io/v1
 kind: Cluster
 metadata:
   labels:
-    - type: openstack
+    type: openstack
   {{- if .Values.ccm.enabled }}
-    - ccm-enabled: true
+    ccm-enabled: true
   {{- end }}
   {{- if .Values.csi.enabled }}
-    - csi-enabled: true
+    csi-enabled: true
     {{- if eq $.Values.csi.name "cinder" }}
-    - csi-name: "cinder"
+    csi-name: "cinder"
     {{- end }}  
     {{- if eq $.Values.csi.name "manila" }}
-    - csi-name: "manila"
+    csi-name: "manila"
     {{- end }} 
   {{- end }}
   {{- if .Values.cluster.labels }}
