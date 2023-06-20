@@ -1,0 +1,21 @@
+{{- if .Values.ccm.enabled }}
+apiVersion: management.cattle.io/v3
+kind: ManagedChart
+metadata:
+  name: openstack-cloud-controller-manager-{{ .Values.cluster.name }}
+  namespace: fleet-default
+spec:
+  chart: "openstack-cloud-controller-manager"
+  repo: https://kubernetes.github.io/cloud-provider-openstack
+  version: "2.27.1"
+  repoName: "cloud-provider-openstack"
+  releaseName: "openstack-cloud-controller-manager"
+  {{- if .Values.ccm.values }}
+  values: 
+{{ toYaml .Values.ccm.values | indent 4 }}
+  {{- end }}
+  defaultNamespace: "kube-system"
+  targets:
+  - clusterName: {{ .Values.cluster.name }}
+---
+{{- end }}
