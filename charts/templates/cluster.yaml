@@ -4,10 +4,10 @@ metadata:
   labels:
     type: openstack
   {{- if .Values.ccm.enabled }}
-    ccm-enabled: true
+    use-ccm: "enabled"
   {{- end }}
   {{- if .Values.csi.enabled }}
-    csi-enabled: true
+    use-csi: "enabled"
     {{- if eq $.Values.csi.name "cinder" }}
     csi-name: "cinder"
     {{- end }}  
