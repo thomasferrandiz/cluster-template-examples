@@ -34,6 +34,17 @@ userDataFile: |
         chart: openstack-cloud-controller-manager
         version: "2.27.1"
         targetNamespace: kube-system
+        valuesContent: |-
+          nodeSelector:
+            node-role.kubernetes.io/controlplane: "true"
+          tolerations:
+          - key: node.cloudprovider.kubernetes.io/uninitialized
+            value: "true"
+            effect: NoSchedule
+          - key: node-role.kubernetes.io/controlplane
+            value: "true"
+            effect: NoSchedule
+        
       EOF
     {{- range $value := $.Values.cloudinit.runcmd }}
     - {{ $value }}
