@@ -24,13 +24,14 @@ userDataFile: |
     - | 
       cat > /var/lib/rancher/rke2/server/manifests/rke2-os-ccm-config.yaml <<EOF
       apiVersion: helm.cattle.io/v1
-      kind: HelmChartConfig
+      kind: HelmChart
       metadata:
         name: openstack-cloud-controller-manager
         namespace: kube-system
       spec:
         bootstrap: true
         repo: https://kubernetes.github.io/cloud-provider-openstack
+        chart: openstack-cloud-controller-manager
         version: "2.27.1"
         targetNamespace: kube-system
       EOF
