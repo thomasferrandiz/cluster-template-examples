@@ -17,20 +17,7 @@ cloudCredentialSecretName: engcloud
 cloudinit:
   enable: true
   runcmd:
-  - mkdir -p /var/lib/rancher/rke2/server/manifests
-  - | 
-    cat > /var/lib/rancher/rke2/server/manifests/rke2-os-ccm-config.yaml <<EOF
-    apiVersion: helm.cattle.io/v1
-    kind: HelmChart
-    metadata:
-      name: openstack-cloud-controller-manager
-      namespace: kube-system
-    spec:
-      bootstrap: true
-      repo: https://kubernetes.github.io/cloud-provider-openstack
-      version: "2.27.1"
-      targetNamespace: kube-system
-    EOF
+  - echo "welcome"
 
 kubernetesVersion: "v1.25.10+rke2r1"
 
