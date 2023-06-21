@@ -146,6 +146,7 @@ spec:
       # cloud-provider-config: "/etc/rancher/rke2/cloud.conf"
       {{- if .Values.ccm.enabled }}
       disable-cloud-controller: true
+      kubelet-arg: "--cloud-provider=external"
       {{- end }}
 
     # machineSelectorConfig:
@@ -161,9 +162,6 @@ spec:
         # Kubelet resolv.conf file
         # resolv-conf: ""
         # Customized flag for kubelet process
-        {{- if .Values.ccm.enabled }}
-        kubelet-arg: "--cloud-provider=external"
-        {{- end }}
         # Customized flag for kube-proxy process
         # kube-proxy-arg: ""
         # Kernel tuning behavior. If set, error if kernel tunables are different than kubelet defaults. (default: false)
